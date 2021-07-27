@@ -33,5 +33,24 @@ module.exports = {
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
+    {
+      resolve: "gatsby-source-magento2",
+      options: {
+          graphqlEndpoint: "http://gopaktest.magento.com/graphql",
+          
+          // real-time catalog updates (optional)
+          // pubsubEndpoint: 'https://pubsub.mobelop.com/graphql',
+          // pubsubApiKey: '****', // contact info@mobelop.com to get one for free
+          // watch: true,
+          
+          // this is optional
+          // queries: {
+          //     // see example query in src/nodes/queries/products.js
+          //     allProductsQuery: `... custom GraphQL query for fetching all the products you need to publish on Gatsby website ...`,
+          //     // see example query in src/nodes/queries/categories.js
+          //     categoryQuery: `... custom GraphQL query for fetching all the categories & product ids ...`
+          // }
+      }
+    },
   ],
 }

@@ -13,6 +13,7 @@
     "gatsby-plugin-react-helmet": "^4.9.0",
     "gatsby-plugin-sharp": "^3.9.0",
     "gatsby-source-filesystem": "^3.9.0",
+    "gatsby-source-magento2": "^2.4.6",
     "gatsby-transformer-sharp": "^3.9.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
@@ -28,6 +29,7 @@
   "license": "0BSD",
   "scripts": {
     "build": "gatsby build",
+    "dev": "gatsby develop",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "start": "npm run develop",
