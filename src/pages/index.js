@@ -1,29 +1,61 @@
-import * as React from "react"
+import React from "react"
+import { graphql } from 'gatsby'
 import { Link } from "gatsby"
-import { StaticImage } from "gatsby-plugin-image"
-
+import get from 'lodash/get'
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
-const IndexPage = () => (
-  <Layout>
-    <Seo title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <StaticImage
-      src="../images/gatsby-astronaut.png"
-      width={300}
-      quality={95}
-      formats={["AUTO", "WEBP", "AVIF"]}
-      alt="A Gatsby astronaut"
-      style={{ marginBottom: `1.45rem` }}
-    />
-    <p>
-      <Link to="/page-2/">Go to page 2</Link> <br />
-      <Link to="/using-typescript/">Go to "Using TypeScript"</Link>
-    </p>
-  </Layout>
-)
-
+class IndexPage extends React.Component {
+  render() {
+    const productsList = get(this.props, 'data.allMagentoProduct')
+    return (
+      <Layout>
+        <Seo title="Home" />
+        <ul class="products-list">
+          {productsList.edges.map((product) => (
+            <li key={product.node.id}>
+              <Link to={`/${product.node.url_key}/`}>
+                <img src={product.node.image.url} alt="Test" />
+                <h3>{product.node.name}</h3>
+                <span>{product.node.price.regularPrice.amount.currency}{product.node.price.regularPrice.amount.value}</span>
+              </Link>
+            </li>  
+          ))}
+        </ul>
+        {/* <p>
+          <Link to="/page-2/">Go to page 2</Link> <br />
+          <Link to="/using-typescript/">Go to "Using TypeScript"</Link>
+        </p> */}
+      </Layout>
+    )
+  }
+}
 export default IndexPage
+
+export const productsQuery = graphql`
+  query Products {
+    allMagentoProduct {
+      edges {
+        node {
+          url_key
+          name
+          price {
+            regularPrice {
+              amount {
+                currency
+                value
+              }
+            }
+          }
+          id
+          short_description {
+            html
+          }
+          image {
+            url
+          }
+        }
+      }
+    }
+  }
+`
