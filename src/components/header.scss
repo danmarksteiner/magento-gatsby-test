@@ -1,0 +1,32 @@
+.site-header {
+  padding: 20px 60px;
+  font-size: 1rem;
+  font-family: 'Roboto', sans-serif;
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  grid-template-rows: 1fr; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    ". ."; 
+  nav {
+    text-align: right;
+    ul {
+      list-style: none;
+      li {
+        display: inline-block;
+        margin-left: 20px;
+        a {
+          color: #000;
+          text-decoration: none;
+          &:hover {
+            opacity: 0.8;
+          }
+          i {
+            padding-right: 5px;
+            color: #071e62;
+          }
+        }
+      }
+    }
+  }
+}
