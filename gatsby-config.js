@@ -36,7 +36,8 @@ module.exports = {
     {
       resolve: "gatsby-source-magento2",
       options: {
-          graphqlEndpoint: "http://gopaktest.magento.com/graphql",
+          // graphqlEndpoint: "http://gopaktest.magento.com/graphql",
+          graphqlEndpoint: "http://gopakstage.butterfly.london/graphql",
           
           // real-time catalog updates (optional)
           // pubsubEndpoint: 'https://pubsub.mobelop.com/graphql',
@@ -44,12 +45,61 @@ module.exports = {
           // watch: true,
           
           // this is optional
-          // queries: {
-          //     // see example query in src/nodes/queries/products.js
-          //     allProductsQuery: `... custom GraphQL query for fetching all the products you need to publish on Gatsby website ...`,
-          //     // see example query in src/nodes/queries/categories.js
-          //     categoryQuery: `... custom GraphQL query for fetching all the categories & product ids ...`
-          // }
+          queries: {
+            //     // see example query in src/nodes/queries/products.js
+            //     allProductsQuery: `... custom GraphQL query for fetching all the products you need to publish on Gatsby website ...`,
+            //     // see example query in src/nodes/queries/categories.js
+          allProductsQuery: `query {
+            products (
+              filter:{}
+              pageSize: 25000
+              currentPage: 1
+            ) {
+              
+              items {
+                id
+                sku
+                name
+                type_id
+                meta_title
+                meta_keyword
+                meta_description
+                options_container
+                image {
+                  disabled
+                  label
+                  position
+                  url
+                }
+                small_image {
+                  disabled
+                  label
+                  position
+                  url
+                }
+                url_key
+          
+                ... on CustomizableProductInterface {
+                  options {
+                    title
+                    required
+                    sort_order
+                    uid
+                  }
+                }
+                ... on VirtualProduct {
+                  options_container
+                  
+                }
+                categories {
+                  uid
+                  name
+                  url_path
+                }
+              }
+            }
+          }`,
+        }    
       }
     },
     `gatsby-plugin-sass`
