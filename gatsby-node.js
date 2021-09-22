@@ -14,11 +14,12 @@ exports.createPages = ({ graphql, actions }) => {
         resolve(
             graphql(
                 `
-                {
-                    allMagentoProduct {
+                  {
+                    allMagentoProduct(filter: {type_id: {eq: "simple"}}) {
                       edges {
                         node {
                           url_key
+                          name
                         }
                       }
                     }
@@ -27,6 +28,7 @@ exports.createPages = ({ graphql, actions }) => {
                         node {
                           magento_id
                           url_key
+                          name
                           url_path
                         }
                       }
@@ -44,28 +46,29 @@ exports.createPages = ({ graphql, actions }) => {
                         component: path.resolve(`./src/pages/product.js`),
                         context: {
                             url_key: node.url_key,
+                            name: node.name,
                         },
                     });
                 });
                 
                 result.data.allMagentoCategory.edges.forEach(({ node }) => {
-                    console.log(node.url_path)
-                    // createPage({
-                    //     path: `/${node.url_path}/`,
-                    //     component: path.resolve(`./src/pages/category.jsx`),
-                    //     context: {
-                    //         category_id: node.magento_id,
-                    //         url_key: node.url_key,
-                    //     },
-                    // });
+                    createPage({
+                        path: `/${node.url_path}/`,
+                        component: path.resolve(`./src/pages/category.js`),
+                        context: {
+                            name: node.name,
+                            category_id: node.magento_id,
+                            url_key: node.url_key,
+                        },
+                    });
 
-                    // id is gatsby.js node id. we need to put magento_id there instead
-                    // const dstCategory = {
-                    //     ...node,
-                    //     id: node.magento_id,
-                    // };
+                    //id is gatsby.js node id. we need to put magento_id there instead
+                    const dstCategory = {
+                        ...node,
+                        id: node.magento_id,
+                    };
 
-                    // delete dstCategory.magento_id;
+                    delete dstCategory.magento_id;
                 });
                 
             })
